@@ -52,12 +52,7 @@ public class ARTrackedObject : MonoBehaviour
 	public float secondsToRemainVisible = 0.0f;		// How long to remain visible after tracking is lost (to reduce flicker)
 	private bool visibleOrRemain = false;			// Whether to show the content (based on above variables)
 
-    private bool Object1 = true;
-    private bool Object2 = false;
-    private bool Object3 = false;
-    private bool Object4 = false;
-
-    public GameObject eventReceiver;
+	public GameObject eventReceiver;
 
 	// Private fields with accessors.
 	[SerializeField]
@@ -119,74 +114,9 @@ public class ARTrackedObject : MonoBehaviour
 		}
 	}
 
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.H))
-        {
-            Object1 = true;
-            Object2 = false;
-            Object3 = false;
-            Object4 = false;
-        }
-        if (Input.GetKey(KeyCode.J))
-        {
-            Object1 = false;
-            Object2 = true;
-            Object3 = false;
-            Object4 = false;
-        }
-        if (Input.GetKey(KeyCode.K))
-        {
-            Object1 = false;
-            Object2 = false;
-            Object3 = true;
-            Object4 = false;
-        }
-        if (Input.GetKey(KeyCode.L))
-        {
-            Object1 = false;
-            Object2 = false;
-            Object3 = false;
-            Object4 = true;
-        }
-        if(visible)
-        {
-            if (Object1)
-            {
-                this.transform.GetChild(0).gameObject.SetActive(true);
-                this.transform.GetChild(1).gameObject.SetActive(false);
-                this.transform.GetChild(2).gameObject.SetActive(false);
-                this.transform.GetChild(3).gameObject.SetActive(false);
-            }
-            else if (Object2)
-            {
-                this.transform.GetChild(0).gameObject.SetActive(false);
-                this.transform.GetChild(1).gameObject.SetActive(true);
-                this.transform.GetChild(2).gameObject.SetActive(false);
-                this.transform.GetChild(3).gameObject.SetActive(false);
-            }
-            else if (Object3)
-            {
-                this.transform.GetChild(0).gameObject.SetActive(false);
-                this.transform.GetChild(1).gameObject.SetActive(false);
-                this.transform.GetChild(2).gameObject.SetActive(true);
-                this.transform.GetChild(3).gameObject.SetActive(false);
-            }
-            else if (Object4)
-            {
-                this.transform.GetChild(0).gameObject.SetActive(false);
-                this.transform.GetChild(1).gameObject.SetActive(false);
-                this.transform.GetChild(2).gameObject.SetActive(false);
-                this.transform.GetChild(3).gameObject.SetActive(true);
-            }
-        }
-    }
-
-    // Use LateUpdate to be sure the ARMarker has updated before we try and use the transformation.
-    void LateUpdate()
+	// Use LateUpdate to be sure the ARMarker has updated before we try and use the transformation.
+	void LateUpdate()
 	{
-
-        
 		// Local scale is always 1 for now
 		transform.localScale = Vector3.one;
 		
@@ -217,26 +147,8 @@ public class ARTrackedObject : MonoBehaviour
 							visible = visibleOrRemain = true;
 							if (eventReceiver != null) eventReceiver.BroadcastMessage("OnMarkerFound", marker, SendMessageOptions.DontRequireReceiver);
 
-                            //for (int i = 0; i < this.transform.childCount; i++) //this.transform.GetChild(i).gameObject.SetActive(true);
-                            //{
-                            if (Object1)
-                            {
-                                this.transform.GetChild(0).gameObject.SetActive(true);
-                            }
-                            else if (Object2)
-                            {
-                                this.transform.GetChild(1).gameObject.SetActive(true);
-                            }
-                            else if (Object3)
-                            {
-                                this.transform.GetChild(2).gameObject.SetActive(true);
-                            }
-                            else if (Object4)
-                            {
-                                this.transform.GetChild(3).gameObject.SetActive(true);
-                            }
-
-                        }
+							for (int i = 0; i < this.transform.childCount; i++) this.transform.GetChild(i).gameObject.SetActive(true);
+						}
 
                         Matrix4x4 pose;
                         if (marker == baseMarker) {
@@ -261,9 +173,8 @@ public class ARTrackedObject : MonoBehaviour
 						if (visibleOrRemain && (timeNow - timeTrackingLost >= secondsToRemainVisible)) {
 							visibleOrRemain = false;
 							if (eventReceiver != null) eventReceiver.BroadcastMessage("OnMarkerLost", marker, SendMessageOptions.DontRequireReceiver);
-                            for (int i = 0; i < this.transform.childCount; i++) this.transform.GetChild(i).gameObject.SetActive(false);
-             
-                        }
+							for (int i = 0; i < this.transform.childCount; i++) this.transform.GetChild(i).gameObject.SetActive(false);
+						}
 					}
 				} // marker
 
