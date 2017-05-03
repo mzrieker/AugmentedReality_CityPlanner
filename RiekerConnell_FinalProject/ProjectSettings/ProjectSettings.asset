@@ -475,6 +475,10 @@ PlayerSettings:
   XboxOnePersistentLocalStorageSize: 0
   vrEditorSettings: {}
   cloudServicesEnabled:
+    Build: 0
+    Collab: 0
+    ErrorHub: 0
+    Hub: 0
     UNet: 1
   cloudProjectId: b44c485a-30a1-42dc-aa46-4b6017d6d33a
   projectName: RiekerConnell_FinalProject
