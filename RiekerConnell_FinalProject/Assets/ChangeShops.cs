@@ -36,6 +36,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Transform))]
@@ -224,36 +225,202 @@ public class ChangeShops : MonoBehaviour
 
     }
 
-
     private void Update()
     {
-        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.S) && visible)
+        if (Input.GetKey(KeyCode.S) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKey(KeyCode.RightArrow) && visible)
         {
-            rotateModel();
+            rotateRight();
         }
-        else if (Input.GetKeyDown(KeyCode.S) && visible)
+        else if (Input.GetKey(KeyCode.S) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKey(KeyCode.LeftArrow) && visible)
+        {
+            rotateLeft();
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.RightArrow) && visible)
+        {
+            translateRight();
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.UpArrow) && visible)
+        {
+            translateForward();
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.DownArrow) && visible)
+        {
+            translateBack();
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.LeftArrow) && visible)
+        {
+            translateLeft();
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.RightAlt) && visible)
+        {
+            pasteModel();
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Space) && visible)
         {
             changeModel();
         }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Comma) && visible)
+        {
+            undo();
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Period) && visible)
+        {
+           redo();
+        }
     }
 
-    private void rotateModel()
+    GameObject[] pastedObjects = new GameObject[30];
+    //List<GameObject> pastedObjects;
+    int index = 0;
+    private void pasteModel()
+    {
+        if(index < 9)
+        {
+            if (child0)
+            {
+                pastedObjects[index] = Instantiate(transform.GetChild(0).gameObject, transform.GetChild(0).position, transform.GetChild(0).rotation);
+            }
+            else if (child1)
+            {
+                pastedObjects[index] = Instantiate(transform.GetChild(1).gameObject, transform.GetChild(1).position, transform.GetChild(1).rotation);
+            }
+            else if (child2)
+            {
+                pastedObjects[index] = Instantiate(transform.GetChild(2).gameObject, transform.GetChild(2).position, transform.GetChild(2).rotation);
+            }
+            else if (child3)
+            {
+                pastedObjects[index] = Instantiate(transform.GetChild(3).gameObject, transform.GetChild(3).position, transform.GetChild(3).rotation);
+            }
+            index++;
+            int i = index;
+            while (i < 30)
+            {
+                if (pastedObjects[i] != null)
+                    Destroy(pastedObjects[i]);
+                i++;
+            }
+        }
+    }
+
+    float speed = 0.001f;
+    private void translateRight()
     {
         if (child0)
         {
-            this.transform.GetChild(0).transform.Rotate(0, 90, 0);
+            transform.GetChild(0).transform.Translate(Vector3.right * speed);
         }
         else if (child1)
         {
-            this.transform.GetChild(1).transform.Rotate(0, 90, 0);
+            transform.GetChild(1).transform.Translate(Vector3.right * speed);
         }
         else if (child2)
         {
-            this.transform.GetChild(2).transform.Rotate(0, 90, 0);
+            transform.GetChild(2).transform.Translate(Vector3.right * speed);
         }
         else if (child3)
         {
-            this.transform.GetChild(3).transform.Rotate(0, 90, 0);
+            transform.GetChild(3).transform.Translate(Vector3.right * speed);
+        }
+    }
+
+    private void translateLeft()
+    {
+        if (child0)
+        {
+            transform.GetChild(0).transform.Translate(-Vector3.right * speed);
+        }
+        else if (child1)
+        {
+            transform.GetChild(1).transform.Translate(-Vector3.right * speed);
+        }
+        else if (child2)
+        {
+            transform.GetChild(2).transform.Translate(-Vector3.right * speed);
+        }
+        else if (child3)
+        {
+            transform.GetChild(3).transform.Translate(-Vector3.right * speed);
+        }
+    }
+
+    private void translateForward()
+    {
+        if (child0)
+        {
+            transform.GetChild(0).transform.Translate(Vector3.forward * speed);
+        }
+        else if (child1)
+        {
+            transform.GetChild(1).transform.Translate(Vector3.forward * speed);
+        }
+        else if (child2)
+        {
+            transform.GetChild(2).transform.Translate(Vector3.forward * speed);
+        }
+        else if (child3)
+        {
+            transform.GetChild(3).transform.Translate(Vector3.forward * speed);
+        }
+    }
+
+    private void translateBack()
+    {
+        if (child0)
+        {
+            transform.GetChild(0).transform.Translate(-Vector3.forward * speed);
+        }
+        else if (child1)
+        {
+            transform.GetChild(1).transform.Translate(-Vector3.forward * speed);
+        }
+        else if (child2)
+        {
+            transform.GetChild(2).transform.Translate(-Vector3.forward * speed);
+        }
+        else if (child3)
+        {
+            transform.GetChild(3).transform.Translate(-Vector3.forward * speed);
+        }
+    }
+
+    private void rotateRight()
+    {
+        if (child0)
+        {
+            this.transform.GetChild(0).transform.Rotate(0, 1, 0);
+        }
+        else if (child1)
+        {
+            this.transform.GetChild(1).transform.Rotate(0, 1, 0);
+        }
+        else if (child2)
+        {
+            this.transform.GetChild(2).transform.Rotate(0, 1, 0);
+        }
+        else if (child3)
+        {
+            this.transform.GetChild(3).transform.Rotate(0, 1, 0);
+        }
+    }
+
+    private void rotateLeft()
+    {
+        if (child0)
+        {
+            this.transform.GetChild(0).transform.Rotate(0, -1, 0);
+        }
+        else if (child1)
+        {
+            this.transform.GetChild(1).transform.Rotate(0, -1, 0);
+        }
+        else if (child2)
+        {
+            this.transform.GetChild(2).transform.Rotate(0, -1, 0);
+        }
+        else if (child3)
+        {
+            this.transform.GetChild(3).transform.Rotate(0, -1, 0);
         }
     }
 
@@ -299,5 +466,22 @@ public class ChangeShops : MonoBehaviour
         }
     }
 
+    private void undo()
+    {
+        if(index > 0)
+        {
+            index--;
+            pastedObjects[index].SetActive(false);
+        }
+    }
+
+    private void redo()
+    {
+        if(index < 30 && pastedObjects[index] != null)
+        {
+            pastedObjects[index].SetActive(true);
+            index++;
+        }
+    }
 }
 
