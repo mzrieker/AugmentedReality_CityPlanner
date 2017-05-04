@@ -73,7 +73,7 @@ public class ChangeRoad : MonoBehaviour
         }
     }
 
-    private bool child0 = true, child1 = false, child2 = false, child3 = false;
+    private bool child0 = true, child1 = false;
 
     // Return the marker associated with this component.
     // Uses cached value if available, otherwise performs a find operation.
@@ -174,14 +174,6 @@ public class ChangeRoad : MonoBehaviour
                             {
                                 this.transform.GetChild(1).gameObject.SetActive(true);
                             }
-                            else if (child2)
-                            {
-                                this.transform.GetChild(2).gameObject.SetActive(true);
-                            }
-                            else if (child3)
-                            {
-                                this.transform.GetChild(3).gameObject.SetActive(true);
-                            }
                         }
 
                         Matrix4x4 pose;
@@ -227,9 +219,25 @@ public class ChangeRoad : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && visible)
+        if((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.R) && visible)
+        {
+            rotateModel();
+        }
+        else if (Input.GetKeyDown(KeyCode.R) && visible)
         {
             changeModel();
+        }
+    }
+
+    private void rotateModel()
+    {
+        if(child0)
+        {
+            this.transform.GetChild(0).transform.Rotate(0, 90, 0);
+        }
+        else if(child1)
+        {
+            this.transform.GetChild(1).transform.Rotate(0, 90, 0);
         }
     }
 
@@ -243,16 +251,6 @@ public class ChangeRoad : MonoBehaviour
         else if (child1)
         {
             child1 = false;
-            child2 = true;
-        }
-        else if (child2)
-        {
-            child2 = false;
-            child3 = true;
-        }
-        else if (child3)
-        {
-            child3 = false;
             child0 = true;
         }
 
@@ -264,14 +262,6 @@ public class ChangeRoad : MonoBehaviour
         else if (child1)
         {
             this.transform.GetChild(1).gameObject.SetActive(true);
-        }
-        else if (child2)
-        {
-            this.transform.GetChild(2).gameObject.SetActive(true);
-        }
-        else if (child3)
-        {
-            this.transform.GetChild(3).gameObject.SetActive(true);
         }
     }
 

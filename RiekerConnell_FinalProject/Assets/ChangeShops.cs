@@ -227,9 +227,33 @@ public class ChangeShops : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S) && visible)
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.S) && visible)
+        {
+            rotateModel();
+        }
+        else if (Input.GetKeyDown(KeyCode.S) && visible)
         {
             changeModel();
+        }
+    }
+
+    private void rotateModel()
+    {
+        if (child0)
+        {
+            this.transform.GetChild(0).transform.Rotate(0, 90, 0);
+        }
+        else if (child1)
+        {
+            this.transform.GetChild(1).transform.Rotate(0, 90, 0);
+        }
+        else if (child2)
+        {
+            this.transform.GetChild(2).transform.Rotate(0, 90, 0);
+        }
+        else if (child3)
+        {
+            this.transform.GetChild(3).transform.Rotate(0, 90, 0);
         }
     }
 
